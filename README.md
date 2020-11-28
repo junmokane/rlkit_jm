@@ -1,3 +1,6 @@
+## Added functions
+Store replay buffer with hdf5
+
 # RLkit
 Reinforcement learning framework and algorithms implemented in PyTorch.
 

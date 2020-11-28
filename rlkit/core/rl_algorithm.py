@@ -87,6 +87,8 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             self.replay_buffer.get_diagnostics(),
             prefix='replay_buffer/'
         )
+        snap_shot_dir = logger.get_snapshot_dir()
+        print(snap_shot_dir)
 
         """
         Trainer
