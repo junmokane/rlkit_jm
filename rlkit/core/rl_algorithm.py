@@ -38,6 +38,7 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
         self.eval_data_collector = evaluation_data_collector
         self.replay_buffer = replay_buffer
         self._start_epoch = 0
+        self._flag = True  # flag for save replay buffer
 
         self.post_epoch_funcs = []
 
@@ -88,7 +89,11 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             prefix='replay_buffer/'
         )
         snap_shot_dir = logger.get_snapshot_dir()
-        print(snap_shot_dir)
+        # Save replay buffer once when the size of the replay buffer reaches the maximum for the first time
+        if self._flag and self.replay_buffer.num_steps_can_sample() == self.replay_buffer.max_steps_can_sample():
+            print('Saved at', self.replay_buffer.num_steps_can_sample())
+            self.replay_buffer.save_buffer(snap_shot_dir + '/replay_buffer.hdf5')
+            self._flag = False
 
         """
         Trainer

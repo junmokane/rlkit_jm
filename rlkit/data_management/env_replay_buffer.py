@@ -3,6 +3,7 @@ from gym.spaces import Discrete
 from rlkit.data_management.simple_replay_buffer import SimpleReplayBuffer
 from rlkit.envs.env_utils import get_dim
 import numpy as np
+import h5py
 
 
 class EnvReplayBuffer(SimpleReplayBuffer):
@@ -48,3 +49,11 @@ class EnvReplayBuffer(SimpleReplayBuffer):
             terminal=terminal,
             **kwargs
         )
+
+    def save_buffer(self, path):
+        f = h5py.File(path, 'w')
+        f['observations'] = self._observations
+        f['actions'] = self._actions
+        f['rewards'] = self._rewards
+        f['terminals'] = self._terminals
+        f.close()

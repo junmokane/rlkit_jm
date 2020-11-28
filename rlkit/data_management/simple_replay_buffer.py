@@ -93,6 +93,9 @@ class SimpleReplayBuffer(ReplayBuffer):
     def num_steps_can_sample(self):
         return self._size
 
+    def max_steps_can_sample(self):
+        return self._max_replay_buffer_size
+
     def get_diagnostics(self):
         return OrderedDict([
             ('size', self._size)

@@ -30,6 +30,13 @@ class ReplayBuffer(object, metaclass=abc.ABCMeta):
         """
         pass
 
+    @abc.abstractmethod
+    def max_steps_can_sample(self, **kwargs):
+        """
+        :return: # of max items that can be sampled.
+        """
+        pass
+
     def add_path(self, path):
         """
         Add a path to the replay buffer.

@@ -1,5 +1,4 @@
 from rlkit.data_management.env_replay_buffer import EnvReplayBuffer
-from rlkit.data_management.save_replay_buffer import SaveReplayBuffer
 from rlkit.envs import ENVS  # done after envs.__init__.py executes
 from rlkit.envs.wrappers import NormalizedBoxEnv
 from rlkit.policies.base import Policy
@@ -37,7 +36,7 @@ replay_buffer.add_paths(paths)
 print('the current size of replay buffer is', replay_buffer.num_steps_can_sample())
 
 # Save the replay buffer
-replay_buffer = SaveReplayBuffer(int(1E6), env,)  # this is just replay_buffer with save function
+replay_buffer = EnvReplayBuffer(int(1E6), env,)  # this is just replay_buffer with save function
 file_path = './data/halfcheetah_fwd.hdf5'
 while True:
     paths = path_collector.collect_new_paths(max_path_length=100,

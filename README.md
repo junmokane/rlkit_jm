@@ -1,5 +1,10 @@
-## Added functions
-Store replay buffer with hdf5
+## What's New
+### Version 0.X
+
+#### 11/29/2020
+ - Test registered environment with `scripts/test_env.py`
+ - Add saving replay buffer in `_log_stats` in `rlkit/core/rl_algorithm.py`.
+ - Test saving replay buffer with `scripts/test_save_replay_buffer.py`.
 
 # RLkit
 Reinforcement learning framework and algorithms implemented in PyTorch.
