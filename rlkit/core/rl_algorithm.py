@@ -88,12 +88,14 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
             self.replay_buffer.get_diagnostics(),
             prefix='replay_buffer/'
         )
+        ''' # If you want to save replay buffer as a whole, use this
         snap_shot_dir = logger.get_snapshot_dir()
         # Save replay buffer once when the size of the replay buffer reaches the maximum for the first time
         if self._flag and self.replay_buffer.num_steps_can_sample() == self.replay_buffer.max_steps_can_sample():
             print('Saved at', self.replay_buffer.num_steps_can_sample())
             self.replay_buffer.save_buffer(snap_shot_dir + '/replay_buffer.hdf5')
             self._flag = False
+        '''
 
         """
         Trainer
@@ -113,10 +115,12 @@ class BaseRLAlgorithm(object, metaclass=abc.ABCMeta):
                 self.expl_env.get_diagnostics(expl_paths),
                 prefix='exploration/',
             )
-        logger.record_dict(
-            eval_util.get_generic_path_information(expl_paths),
-            prefix="exploration/",
-        )
+        if not self.batch_rl:  # don't worry, this will be defined in batch_rl_algorithm.py
+            logger.record_dict(
+                eval_util.get_generic_path_information(expl_paths),
+                prefix="exploration/",
+            )
+
         """
         Evaluation
         """

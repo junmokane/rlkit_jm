@@ -23,6 +23,7 @@ class BatchRLAlgorithm(BaseRLAlgorithm, metaclass=abc.ABCMeta):
             num_trains_per_train_loop,
             num_train_loops_per_epoch=1,
             min_num_steps_before_training=0,
+            batch_rl=False,
     ):
         super().__init__(
             trainer,
@@ -40,9 +41,10 @@ class BatchRLAlgorithm(BaseRLAlgorithm, metaclass=abc.ABCMeta):
         self.num_train_loops_per_epoch = num_train_loops_per_epoch
         self.num_expl_steps_per_train_loop = num_expl_steps_per_train_loop
         self.min_num_steps_before_training = min_num_steps_before_training
+        self.batch_rl = batch_rl
 
     def _train(self):
-        if self.min_num_steps_before_training > 0:
+        if self.min_num_steps_before_training > 0 and not self.batch_rl:
             init_expl_paths = self.expl_data_collector.collect_new_paths(
                 self.max_path_length,
                 self.min_num_steps_before_training,
@@ -63,15 +65,16 @@ class BatchRLAlgorithm(BaseRLAlgorithm, metaclass=abc.ABCMeta):
             gt.stamp('evaluation sampling')
 
             for _ in range(self.num_train_loops_per_epoch):
-                new_expl_paths = self.expl_data_collector.collect_new_paths(
-                    self.max_path_length,
-                    self.num_expl_steps_per_train_loop,
-                    discard_incomplete_paths=False,
-                )
-                gt.stamp('exploration sampling', unique=False)
+                if not self.batch_rl:
+                    new_expl_paths = self.expl_data_collector.collect_new_paths(
+                        self.max_path_length,
+                        self.num_expl_steps_per_train_loop,
+                        discard_incomplete_paths=False,
+                    )
+                    gt.stamp('exploration sampling', unique=False)
 
-                self.replay_buffer.add_paths(new_expl_paths)
-                gt.stamp('data storing', unique=False)
+                    self.replay_buffer.add_paths(new_expl_paths)
+                    gt.stamp('data storing', unique=False)
 
                 self.training_mode(True)
                 for _ in range(self.num_trains_per_train_loop):
