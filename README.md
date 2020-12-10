@@ -1,6 +1,10 @@
 ## What's New
 ### Version 0.X
 
+#### 12/10/2020
+ - Add offline AC with soft clipped double Q-learning.
+ - Add MUSAT(Modeling Uncertainty with State Action Tuples) based on offline AC.
+
 #### 12/07/2020
  - python scripts/plot.py ./data/bear-halfcheetah-expert-v0/ --f "evaluation/Returns Mean,evaluation/Returns Max,trainer/Q Targets Mean"
  - Add offline SAC (`batch_rl` in `rlkit/core/batch_rl_algorithm.py` controls the offline setting).
