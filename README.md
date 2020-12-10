@@ -1,8 +1,12 @@
 ## What's New
 ### Version 0.X
 
+#### 12/07/2020
+ - python scripts/plot.py ./data/bear-halfcheetah-expert-v0/ --f "evaluation/Returns Mean,evaluation/Returns Max,trainer/Q Targets Mean"
+ - Add offline SAC (`batch_rl` in `rlkit/core/batch_rl_algorithm.py` controls the offline setting).
+
 #### 11/29/2020
- - Test registered environment with `scripts/test_env.py`
+ - Test registered environment with `scripts/test_env.py`.
  - Add saving replay buffer in `_log_stats` in `rlkit/core/rl_algorithm.py`.
  - Test saving replay buffer with `scripts/test_save_replay_buffer.py`.
 
